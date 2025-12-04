@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+// import { recipesMock } from '../utils/mock/recipesMock';
 
 export interface Recipe {
   id: number;
@@ -27,3 +28,24 @@ export const useRecipes = (query: string) => {
     queryFn: () => fetchRecipes(query),
   });
 };
+
+// // Mocked fetch using local JSON data
+// const fetchRecipes = async (query: string): Promise<Recipe[]> => {
+//   const normalized = query.trim().toLowerCase();
+
+//   // simulate network delay
+//   await new Promise((resolve) => setTimeout(resolve, 400));
+
+//   if (!normalized) return recipesMock;
+
+//   return recipesMock.filter((recipe) =>
+//     recipe.title.toLowerCase().includes(normalized)
+//   );
+// };
+
+// export const useRecipes = (query: string) => {
+//   return useQuery({
+//     queryKey: ['recipes', query],
+//     queryFn: () => fetchRecipes(query),
+//   });
+// };

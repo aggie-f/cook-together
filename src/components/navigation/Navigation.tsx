@@ -1,4 +1,12 @@
-export const Navigation = () => {
+type NavigationProps = {
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
+};
+
+export const Navigation = ({
+  searchQuery,
+  onSearchChange,
+}: NavigationProps) => {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -39,6 +47,8 @@ export const Navigation = () => {
             <input
               type="text"
               placeholder="Search recipes"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
               className="w-32 border-none bg-transparent text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-0 md:w-48"
             />
           </div>

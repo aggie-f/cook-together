@@ -1,8 +1,10 @@
 import { useRecipes } from '../../hooks/useRecipes';
 
-const query = 'cheese';
+type HomeProps = {
+  query: string;
+};
 
-export const Home = () => {
+export const Home = ({ query }: HomeProps) => {
   const { data: recipes = [], isLoading, error } = useRecipes(query);
 
   return (
@@ -37,7 +39,7 @@ export const Home = () => {
 
         {!isLoading && !error && recipes.length === 0 && (
           <div className="rounded-2xl bg-white p-6 text-center text-slate-600 shadow-md">
-            <p>No recipes found</p>
+            <p>No recipes found for "{query}"</p>
           </div>
         )}
 
