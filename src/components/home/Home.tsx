@@ -1,36 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useRecipes } from '../../hooks/useRecipes';
 
-interface Recipe {
-  id: number;
-  title: string;
-  image: string;
-}
-
-const API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
-const query = 'chicken';
-
-const fetchRecipes = async (): Promise<Recipe[]> => {
-  const response = await fetch(
-    `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${API_KEY}`
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed fetching recipes');
-  }
-
-  const data = await response.json();
-  return data.results;
-};
+const query = 'cheese';
 
 export const Home = () => {
-  const {
-    data: recipes = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['recipes'],
-    queryFn: fetchRecipes,
-  });
+  const { data: recipes = [], isLoading, error } = useRecipes(query);
 
   return (
     <div className="min-h-screen bg-slate-50">
