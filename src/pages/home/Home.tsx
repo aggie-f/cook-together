@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useRecipes } from '../../hooks/useRecipes';
 
 type HomeProps = {
@@ -73,12 +74,16 @@ export const Home = ({ query }: HomeProps) => {
                       A delicious option from your "{query}" search.
                     </p>
 
-                    <button className="mt-auto inline-flex items-center justify-center gap-2 self-start rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition group-hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+                    <Link
+                      to={`/recipes/${recipe.id}`}
+                      state={{ title: recipe.title, image: recipe.image }}
+                      className="mt-auto inline-flex items-center justify-center gap-2 self-start rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+                    >
                       <span>View details</span>
                       <span className="text-xs transition-transform group-hover:translate-x-0.5">
                         →
                       </span>
-                    </button>
+                    </Link>
                   </div>
                 </article>
               ))}
