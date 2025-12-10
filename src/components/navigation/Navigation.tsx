@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 type NavigationProps = {
   searchQuery: string;
   onSearchChange: (value: string) => void;
@@ -27,15 +29,47 @@ export const Navigation = ({
 
         {/* Center: simple links (hidden on very small screens) */}
         <div className="hidden items-center gap-6 text-sm font-medium text-slate-600 sm:flex">
-          <button className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              [
+                'px-3 py-1.5 text-xs font-semibold rounded-full shadow-sm transition',
+                isActive
+                  ? 'bg-slate-900 text-white hover:bg-slate-800'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
+              ].join(' ')
+            }
+          >
             Home
-          </button>
-          <button className="text-xs transition hover:text-slate-900">
+          </NavLink>
+
+          <NavLink
+            to="/favourites"
+            className={({ isActive }) =>
+              [
+                'text-xs px-2 py-1 rounded-full transition',
+                isActive
+                  ? 'bg-slate-900 text-white hover:bg-slate-800'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
+              ].join(' ')
+            }
+          >
             Favourites
-          </button>
-          <button className="text-xs transition hover:text-slate-900">
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              [
+                'text-xs px-2 py-1 rounded-full transition',
+                isActive
+                  ? 'bg-slate-900 text-white hover:bg-slate-800'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
+              ].join(' ')
+            }
+          >
             About
-          </button>
+          </NavLink>
         </div>
 
         {/* Right: search + avatar */}
