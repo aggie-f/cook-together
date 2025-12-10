@@ -9,6 +9,14 @@ export const Navigation = ({
   searchQuery,
   onSearchChange,
 }: NavigationProps) => {
+  const getNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
+    [
+      'text-xs px-2 py-1 rounded-full transition',
+      isActive
+        ? 'bg-slate-900 text-white hover:bg-slate-800'
+        : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
+    ].join(' ');
+
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -29,45 +37,15 @@ export const Navigation = ({
 
         {/* Center: simple links (hidden on very small screens) */}
         <div className="hidden items-center gap-6 text-sm font-medium text-slate-600 sm:flex">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              [
-                'px-3 py-1.5 text-xs font-semibold rounded-full shadow-sm transition',
-                isActive
-                  ? 'bg-slate-900 text-white hover:bg-slate-800'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
-              ].join(' ')
-            }
-          >
+          <NavLink to="/" className={getNavLinkClassName}>
             Home
           </NavLink>
 
-          <NavLink
-            to="/favourites"
-            className={({ isActive }) =>
-              [
-                'text-xs px-2 py-1 rounded-full transition',
-                isActive
-                  ? 'bg-slate-900 text-white hover:bg-slate-800'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
-              ].join(' ')
-            }
-          >
+          <NavLink to="/favourites" className={getNavLinkClassName}>
             Favourites
           </NavLink>
 
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              [
-                'text-xs px-2 py-1 rounded-full transition',
-                isActive
-                  ? 'bg-slate-900 text-white hover:bg-slate-800'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100',
-              ].join(' ')
-            }
-          >
+          <NavLink to="/about" className={getNavLinkClassName}>
             About
           </NavLink>
         </div>
