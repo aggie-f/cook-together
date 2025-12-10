@@ -47,6 +47,7 @@ export const Navigation = ({
             <input
               type="text"
               placeholder="Search recipes"
+              aria-label="Search recipes"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-32 border-none bg-transparent text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-0 md:w-48"
@@ -54,7 +55,10 @@ export const Navigation = ({
           </div>
 
           {/* Avatar */}
-          <button className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100 text-xs font-medium text-slate-700 shadow-sm">
+          <button
+            className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100 text-xs font-medium text-slate-700 shadow-sm"
+            aria-label="User menu"
+          >
             AK
           </button>
         </div>

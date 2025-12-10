@@ -49,7 +49,7 @@ export const Home = ({ query }: HomeProps) => {
               Results for "{query}" ({recipes.length})
             </h2>
 
-            <div className="space-y-5 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {recipes.map((recipe) => (
                 <article
                   key={recipe.id}
