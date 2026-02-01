@@ -1,11 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import type { Recipe } from '../types/recipe';
 import { recipesMock } from '../utils/mock/recipesMock';
-
-export interface Recipe {
-  id: number;
-  title: string;
-  image: string;
-}
 
 const API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
 
