@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { Recipe } from '../../hooks/useRecipes';
+import type { Recipe } from '../../types/recipe';
 
 type RecipeCardProps = {
   recipe: Recipe;
@@ -32,7 +32,12 @@ export const RecipeCard = ({ recipe, query }: RecipeCardProps) => {
 
         <Link
           to={`/recipes/${recipe.id}`}
-          state={{ title: recipe.title, image: recipe.image }}
+          state={{
+            title: recipe.title,
+            image: recipe.image,
+            ingredients: recipe.ingredients,
+            steps: recipe.steps,
+          }}
           className="mt-auto inline-flex items-center justify-center gap-2 self-start rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
         >
           <span>View details</span>
