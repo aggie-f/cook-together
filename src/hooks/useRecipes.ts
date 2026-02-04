@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import type { Recipe } from '../types/recipe';
-import { recipesMock } from '../utils/mock/recipesMock';
+import { useQuery } from '@tanstack/react-query'
+import type { Recipe } from '../types/recipe'
+import { getRecipes } from '../services/recipeStorage'
 
-const API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
+const API_KEY = import.meta.env.VITE_RECIPE_API_KEY
 
 // const fetchRecipes = async (query: string): Promise<Recipe[]> => {
 //   const response = await fetch(
@@ -24,23 +24,22 @@ const API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
 //   });
 // };
 
-// Mocked fetch using local JSON data
+// Fetch from localStorage
 const fetchRecipes = async (query: string): Promise<Recipe[]> => {
-  const normalized = query.trim().toLowerCase();
+  const searchQuery = query.trim().toLowerCase()
 
-  // simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 400));
+  const allRecipes = getRecipes()
 
-  if (!normalized) return recipesMock;
+  if (!searchQuery) return allRecipes
 
-  return recipesMock.filter((recipe) =>
-    recipe.title.toLowerCase().includes(normalized)
-  );
-};
+  return allRecipes.filter((recipe) =>
+    recipe.title.toLowerCase().includes(searchQuery)
+  )
+}
 
 export const useRecipes = (query: string) => {
   return useQuery({
     queryKey: ['recipes', query],
     queryFn: () => fetchRecipes(query),
-  });
-};
+  })
+}
