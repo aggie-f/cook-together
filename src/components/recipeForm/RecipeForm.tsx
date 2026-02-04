@@ -8,11 +8,13 @@ type InternalFormValues = Omit<RecipeFormValues, 'steps'> & {
 }
 
 interface RecipeFormProps {
+  defaultValues?: Partial<RecipeFormValues>
   submitLabel?: string
   onSubmit: (values: RecipeFormValues) => void
 }
 
 export const RecipeForm = ({
+  defaultValues,
   submitLabel = 'Save recipe',
   onSubmit,
 }: RecipeFormProps) => {
@@ -23,10 +25,14 @@ export const RecipeForm = ({
     formState: { errors },
   } = useForm<InternalFormValues>({
     defaultValues: {
-      title: '',
-      image: '',
-      ingredients: [{ name: '', quantity: undefined, unit: '', notes: '' }],
-      steps: [{ text: '' }],
+      title: defaultValues?.title ?? '',
+      image: defaultValues?.image ?? '',
+      ingredients: defaultValues?.ingredients?.length
+        ? defaultValues.ingredients
+        : [{ name: '', quantity: undefined, unit: '', notes: '' }],
+      steps: defaultValues?.steps?.length
+        ? defaultValues.steps.map((s) => ({ text: s }))
+        : [{ text: '' }],
     },
     mode: 'onSubmit',
   })
