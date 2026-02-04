@@ -2,6 +2,30 @@ import type { Recipe, RecipeId } from '../types/recipe'
 
 const STORAGE_KEY = 'cookTogheter.recipes'
 
+const generateSlug = (title: string): string => {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+}
+
+const generateUniqueSlug = (
+  title: string,
+  existingRecipes: Recipe[]
+): string => {
+  let slug = generateSlug(title)
+  let counter = 1
+
+  while (existingRecipes.some((recipe) => recipe.id === slug)) {
+    slug = `${generateSlug(title)}-${counter}`
+    counter++
+  }
+
+  return slug
+}
+
 export const getRecipes = (): Recipe[] => {
   try {
     const data = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
@@ -22,15 +46,15 @@ export const getRecipeById = (id: RecipeId): Recipe | undefined => {
 export const createRecipe = (
   values: Omit<Recipe, 'id' | 'createdAt' | 'updatedAt'>
 ): Recipe => {
+  const recipes = getRecipes()
   const now = new Date().toISOString()
   const recipe: Recipe = {
-    id: crypto.randomUUID(),
+    id: generateUniqueSlug(values.title, recipes),
     createdAt: now,
     updatedAt: now,
     ...values,
   }
 
-  const recipes = getRecipes()
   saveRecipes([recipe, ...recipes])
 
   return recipe
