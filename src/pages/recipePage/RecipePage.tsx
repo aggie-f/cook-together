@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getRecipeById } from '../../services/recipeStorage'
 
 export const RecipePage = () => {
@@ -18,9 +18,18 @@ export const RecipePage = () => {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-        {recipe.title}
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          {recipe.title}
+        </h1>
+        
+        <Link
+          to={`/recipes/${id}/edit`}
+          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+        >
+          Edit Recipe
+        </Link>
+      </div>
 
       {recipe.image && !imageError ? (
         <img
