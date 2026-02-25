@@ -1,12 +1,13 @@
-import { useRecipes } from '../../hooks/useRecipes';
-import { RecipeCard } from '../../components/recipeCard/RecipeCard';
+import { Link } from 'react-router-dom'
+import { useRecipes } from '../../hooks/useRecipes'
+import { RecipeCard } from '../../components/recipeCard/RecipeCard'
 
-type HomeProps = {
-  query: string;
-};
+interface HomeProps {
+  query: string
+}
 
 export const Home = ({ query }: HomeProps) => {
-  const { data: recipes = [], isLoading, error } = useRecipes(query);
+  const { data: recipes = [], isLoading, error } = useRecipes(query)
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -21,6 +22,13 @@ export const Home = ({ query }: HomeProps) => {
               Discover delicious recipes
             </p>
           </div>
+
+          <Link
+            to="/recipes/new"
+            className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:bg-amber-50 hover:shadow-xl"
+          >
+            + New Recipe
+          </Link>
         </div>
       </div>
 
@@ -47,17 +55,19 @@ export const Home = ({ query }: HomeProps) => {
         {!isLoading && recipes.length > 0 && (
           <>
             <h2 className="mb-4 text-xl font-semibold text-slate-800">
-              Results for "{query}" ({recipes.length})
+              {query
+                ? `Results for "${query}" (${recipes.length})`
+                : `All Recipes (${recipes.length})`}
             </h2>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {recipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} query={query} />
+                <RecipeCard key={recipe.id} recipe={recipe} />
               ))}
             </div>
           </>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
