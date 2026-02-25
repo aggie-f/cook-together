@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { getRecipeById } from '../../services/recipeStorage'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { DeleteConfirmationModal } from '../../components/deleteConfirmationModal/DeleteConfirmationModal'
+import { deleteRecipe, getRecipeById } from '../../services/recipeStorage'
 
 const formatIngredientQuantity = (quantity?: number, unit?: string) => {
   if (quantity && unit) return `${quantity} ${unit} `
@@ -11,9 +12,25 @@ const formatIngredientQuantity = (quantity?: number, unit?: string) => {
 
 export const RecipePage = () => {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const [imageError, setImageError] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const recipe = id ? getRecipeById(id) : undefined
+
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true)
+  }
+
+  const handleDeleteConfirm = () => {
+    if (!id) return
+    deleteRecipe(id)
+    navigate('/')
+  }
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false)
+  }
 
   if (!recipe) {
     return (
@@ -30,12 +47,20 @@ export const RecipePage = () => {
           {recipe.title}
         </h1>
 
-        <Link
-          to={`/recipes/${id}/edit`}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
-        >
-          Edit Recipe
-        </Link>
+        <div className="flex gap-3">
+          <Link
+            to={`/recipes/${id}/edit`}
+            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Edit Recipe
+          </Link>
+          <button
+            onClick={handleDeleteClick}
+            className="rounded-md border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50"
+          >
+            Delete
+          </button>
+        </div>
       </div>
 
       {recipe.image && !imageError ? (
@@ -72,6 +97,13 @@ export const RecipePage = () => {
           ))}
         </ol>
       </section>
+
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        recipeTitle={recipe.title}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
     </main>
   )
 }

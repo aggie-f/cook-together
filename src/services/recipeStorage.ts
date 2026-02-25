@@ -86,3 +86,14 @@ export const updateRecipe = (
   saveRecipes(updatedRecipes)
   return updatedRecipe
 }
+
+export const deleteRecipe = (id: RecipeId): boolean => {
+  const recipes = getRecipes()
+  const recipeExists = recipes.some((recipe) => recipe.id === id)
+
+  if (!recipeExists) return false
+
+  const filteredRecipes = recipes.filter((recipe) => recipe.id !== id)
+  saveRecipes(filteredRecipes)
+  return true
+}
