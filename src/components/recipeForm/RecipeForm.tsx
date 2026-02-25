@@ -60,10 +60,11 @@ export const RecipeForm = ({
     >
       {/* Title */}
       <div>
-        <label className="block text-sm font-medium text-slate-900">
+        <label htmlFor="title" className="block text-sm font-medium text-slate-900">
           Title
         </label>
         <input
+          id="title"
           className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
           {...register('title', { required: 'Title is required' })}
           placeholder="e.g. Creamy Garlic Pasta"
@@ -75,10 +76,11 @@ export const RecipeForm = ({
 
       {/* Image */}
       <div>
-        <label className="block text-sm font-medium text-slate-900">
+        <label htmlFor="image" className="block text-sm font-medium text-slate-900">
           Image URL (optional)
         </label>
         <input
+          id="image"
           className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
           {...register('image')}
           placeholder="https://..."
@@ -114,10 +116,11 @@ export const RecipeForm = ({
             >
               <div className="grid gap-3 sm:grid-cols-4">
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-slate-900">
+                  <label htmlFor={`ingredient-${index}-name`} className="block text-sm font-medium text-slate-900">
                     Name
                   </label>
                   <input
+                    id={`ingredient-${index}-name`}
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                     {...register(`ingredients.${index}.name`, {
                       required: 'Ingredient name is required',
@@ -132,25 +135,39 @@ export const RecipeForm = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900">
+                  <label htmlFor={`ingredient-${index}-quantity`} className="block text-sm font-medium text-slate-900">
                     Qty (optional)
                   </label>
                   <input
+                    id={`ingredient-${index}-quantity`}
                     type="number"
                     step="any"
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                     {...register(`ingredients.${index}.quantity`, {
-                      valueAsNumber: true,
+                      setValueAs: (value) => {
+                        if (
+                          value === '' ||
+                          value === null ||
+                          typeof value === 'undefined'
+                        ) {
+                          return undefined
+                        }
+                        const numberValue = Number(value)
+                        return Number.isNaN(numberValue)
+                          ? undefined
+                          : numberValue
+                      },
                     })}
                     placeholder="e.g. 200"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900">
+                  <label htmlFor={`ingredient-${index}-unit`} className="block text-sm font-medium text-slate-900">
                     Unit (optional)
                   </label>
                   <select
+                    id={`ingredient-${index}-unit`}
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                     {...register(`ingredients.${index}.unit`)}
                     defaultValue=""
@@ -168,10 +185,11 @@ export const RecipeForm = ({
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label className="block text-sm font-medium text-slate-900">
+                  <label htmlFor={`ingredient-${index}-notes`} className="block text-sm font-medium text-slate-900">
                     Notes (optional)
                   </label>
                   <input
+                    id={`ingredient-${index}-notes`}
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                     {...register(`ingredients.${index}.notes`)}
                     placeholder="e.g. finely chopped"
@@ -214,10 +232,11 @@ export const RecipeForm = ({
               key={field.id}
               className="rounded-lg border border-slate-200 p-4"
             >
-              <label className="block text-sm font-medium text-slate-900">
+              <label htmlFor={`step-${index}-text`} className="block text-sm font-medium text-slate-900">
                 Step {index + 1}
               </label>
               <textarea
+                id={`step-${index}-text`}
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                 rows={3}
                 {...register(`steps.${index}.text`, {

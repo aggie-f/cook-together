@@ -2,6 +2,13 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getRecipeById } from '../../services/recipeStorage'
 
+const formatIngredientQuantity = (quantity?: number, unit?: string) => {
+  if (quantity && unit) return `${quantity} ${unit} `
+  if (quantity) return `${quantity} `
+  if (unit) return `${unit} `
+  return ''
+}
+
 export const RecipePage = () => {
   const { id } = useParams<{ id: string }>()
   const [imageError, setImageError] = useState(false)
@@ -49,13 +56,7 @@ export const RecipePage = () => {
         <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-800">
           {recipe.ingredients.map((ing, idx) => (
             <li key={idx}>
-              {ing.quantity && ing.unit
-                ? `${ing.quantity} ${ing.unit} `
-                : ing.quantity
-                  ? `${ing.quantity} `
-                  : ing.unit
-                    ? `${ing.unit} `
-                    : ''}
+              {formatIngredientQuantity(ing.quantity, ing.unit)}
               {ing.name}
               {ing.notes ? ` (${ing.notes})` : ''}
             </li>

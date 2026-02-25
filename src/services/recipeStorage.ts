@@ -36,7 +36,11 @@ export const getRecipes = (): Recipe[] => {
 }
 
 export const saveRecipes = (recipes: Recipe[]) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes))
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes))
+  } catch (error) {
+    console.error('Failed to save recipes to localStorage', error)
+  }
 }
 
 export const getRecipeById = (id: RecipeId): Recipe | undefined => {
